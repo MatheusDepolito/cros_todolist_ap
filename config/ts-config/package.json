@@ -1,0 +1,8 @@
+{
+  "name": "@mockp/ts-config",
+  "version": "1.0.0",
+  "author": "Matheus Depolito <matheussousadg@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "files": ["node.json", "next.json", "react.json"]
+}

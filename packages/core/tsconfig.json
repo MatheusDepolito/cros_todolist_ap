@@ -1,0 +1,3 @@
+{
+  "extends": "@mockp/ts-config/node.json"
+}

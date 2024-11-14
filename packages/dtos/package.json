@@ -1,0 +1,11 @@
+{
+  "name": "@cros_todolist/dtos",
+  "version": "1.0.0",
+  "author": "Matheus Depolito <matheussousadg@gmail.com",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {}
+}

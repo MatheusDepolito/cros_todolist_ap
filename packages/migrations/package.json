@@ -1,0 +1,27 @@
+{
+  "name": "@cros_todolist/migrations",
+  "version": "1.0.0",
+  "author": "Matheus Depolito",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {
+    "start": "node --env-file ../../.env --import tsx src/index.ts",
+    "c:migrations:up": "npm run start -- --command up --type migrations --scope common",
+    "c:migrations:down": "npm run start -- --command down --type migrations --scope common",
+    "c:seeds:up": "npm run start -- --command up --type seeds --scope common",
+    "c:seeds:down": "npm run start -- --command down --type seeds --scope common"
+  },
+  "dependencies": {
+    "knex": "^3.1.0",
+    "pg": "^8.11.3",
+    "sqlite3": "^5.1.7",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.32",
+    "tsx": "^4.7.1"
+  }
+}

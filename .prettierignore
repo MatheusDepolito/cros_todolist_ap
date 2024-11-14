@@ -1,0 +1,8 @@
+.next/
+public/
+.vscode/
+coverage/
+node_modules/
+
+package.json
+package-lock.json
