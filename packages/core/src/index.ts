@@ -22,3 +22,6 @@ export { KnexInMemoryService } from './shared/database/infra/knex/knex-in-memory
 export type { IUnitOfWorkService } from './shared/database/application/unit-of-work.service';
 export { KnexUnitOfWorkService } from './shared/database/infra/knex/knex-unit-of-work.service';
 export { EnvService } from './shared/env/infra/env.service';
+
+export { IJwtService } from './common/auth/application/jwt.service';
+export { AuthService } from './common/auth/application/auth.service';

@@ -1,4 +1,4 @@
-import { IUnitOfWorkService, IUsersRepository, KnexService, KnexUsersRepository, UsersService, UsersView } from "@cros_todolist/core";
+import { AuthService, IUnitOfWorkService, IUsersRepository, KnexService, KnexUsersRepository, UsersService, UsersView } from "@cros_todolist/core";
 import { Provider } from "@nestjs/common";
 
 export const UsersViewProvider: Provider = {

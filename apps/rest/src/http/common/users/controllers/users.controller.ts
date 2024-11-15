@@ -1,9 +1,11 @@
 import { UsersService, UsersView } from "@cros_todolist/core";
-import { Body, Controller, Delete, Get, Inject, Post, Put, Query, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Post, Put, Query, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ParamUUID } from "../../../shared/decorators/param-uuid.decorator";
 import { CreateUsersInputDTO, CrosToDoListControllerResponseDTO, DeleteUsersInputDTO, FindManyUsersInputDTO, UpdateUsersInputDTO } from "@cros_todolist/dtos";
 import { CrosToDoListInterceptor } from "../../../shared/interceptors/to-do-list.response.interceptor";
+import { AuthGuard } from "../../../shared/guards/auth.guard";
 
+@UseGuards(AuthGuard)
 @UseInterceptors()
 @Controller('users')
 export class UsersController {

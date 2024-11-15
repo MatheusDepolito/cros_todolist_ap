@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { UsersController } from "./controllers/users.controller";
 import { UsersRepositoryProvider, UsersServiceProvider, UsersViewProvider } from "./users.provider";
+import { AuthModule } from "../auth/auth.module";
 
 
 
@@ -12,6 +13,6 @@ import { UsersRepositoryProvider, UsersServiceProvider, UsersViewProvider } from
     UsersServiceProvider,
     UsersRepositoryProvider,
   ],
-  exports: [],
+  exports: [UsersRepositoryProvider, UsersServiceProvider],
 })
 export class UsersModule {}

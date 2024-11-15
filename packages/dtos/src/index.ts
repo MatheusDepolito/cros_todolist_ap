@@ -11,3 +11,11 @@ export type { FindOneUsersOutputDTO } from './common/users/outputs/find-one.user
 
 export type { CrosToDoListControllerResponseDTO, CrosToDoListSuccesResponseDTO } from './shared/outputs/cros-to-do-list.output.dto';
 export { CrosToDoListErrorResponseDTO } from './shared/outputs/cros-to-do-list.output.dto';
+
+
+export { AuthType } from './common/auth/enums/auth-type.enum';
+export type { AuthLoginInputDTO } from './common/auth/inputs/auth-login.input.dto';
+export type { AuthLoginOutputDTO } from './common/auth/outputs/auth-login.output.dto';
+export type { AuthPermissionsOutputDTO } from './common/auth/outputs/auth-permissions.output.dto';
+export type { AuthLoginPayloadOutputDTO } from './common/auth/outputs/auth-login-payload.output.dto';
+export type { AuthPermissionsPayloadOutputDTO } from './common/auth/outputs/auth-permissions-payload.output';
