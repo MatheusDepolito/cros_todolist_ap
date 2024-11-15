@@ -1,10 +1,19 @@
 import { Module as NestModule } from '@nestjs/common';
-
+import { UsersModule } from './common/users/users.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CrosToDoListInterceptor } from './shared/interceptors/to-do-list.response.interceptor';
 
 @NestModule({
-  imports: [],
+  imports: [
+    UsersModule,
+  ],
   exports: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CrosToDoListInterceptor
+    },
+  ],
   controllers: [],
 })
 export class HttpModule {}

@@ -7,3 +7,7 @@ export type { DeleteUsersInputDTO } from './common/users/inputs/delete.users.inp
 export type { CreateUsersOutputDTO } from './common/users/outputs/create.users.output.dto';
 export type { FindManyUsersOutputDTO } from './common/users/outputs/find-many.users.output.dto';
 export type { FindOneUsersOutputDTO } from './common/users/outputs/find-one.users.output.dto';
+
+
+export type { CrosToDoListControllerResponseDTO, CrosToDoListSuccesResponseDTO } from './shared/outputs/cros-to-do-list.output.dto';
+export { CrosToDoListErrorResponseDTO } from './shared/outputs/cros-to-do-list.output.dto';

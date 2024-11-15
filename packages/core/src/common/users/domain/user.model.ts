@@ -1,6 +1,7 @@
 import { isEmail, isNotEmpty, isString, isUUID, maxLength, minLength } from "class-validator";
 import { CoreError } from "../../../shared/errors/application/core-error";
 import { CoreErrorCode } from "../../../shared/errors/application/core-error-code.enum";
+import bcrypt from 'bcrypt';
 
 export type UserProps = Omit<User, 'update'>;
 export type CreateUserProps = Omit<UserProps,
@@ -32,7 +33,7 @@ export class User {
       id: crypto.randomUUID(),
       username: props.username,
       email: props.email,
-      password: props.password,
+      password: await bcrypt.hash(props.password, 10),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -87,7 +88,7 @@ export class User {
       messages.push('password must be shorter than or equal to 64 characters');
 
     if (messages.length > 0) {
-      throw new CoreError(messages.join(', '), CoreErrorCode.UNPROCESSABLE_ENTITY);
+      throw new UserError(messages.join(', '), CoreErrorCode.UNPROCESSABLE_ENTITY);
     }
   }
 }

@@ -4,6 +4,7 @@ export interface IUsersRepository {
   findOne(params: FindOneUserParams): Promise<User | null>;
   findMany(params: FindManyUsersParams): Promise<User[]>;
   create(params: CreateUsersParams): Promise<void>;
+  update(params: UpdateUsersParams): Promise<void>;
   delete(params: DeleteUsersParams): Promise<void>;
   count(params: CountUsersParams): Promise<number>;
   exists(params: ExistsUsersParams): Promise<boolean>;
