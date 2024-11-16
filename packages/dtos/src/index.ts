@@ -19,3 +19,13 @@ export type { AuthLoginOutputDTO } from './common/auth/outputs/auth-login.output
 export type { AuthPermissionsOutputDTO } from './common/auth/outputs/auth-permissions.output.dto';
 export type { AuthLoginPayloadOutputDTO } from './common/auth/outputs/auth-login-payload.output.dto';
 export type { AuthPermissionsPayloadOutputDTO } from './common/auth/outputs/auth-permissions-payload.output';
+
+export { TaskStatus } from './to-do-list/tasks/enums/task-status.enum';
+export type { CreateTasksInputDTO } from './to-do-list/tasks/inputs/create-tasks.input.dto';
+export type { FindManyTasksInputDTO } from './to-do-list/tasks/inputs/find-many.tasks.input.dto';
+export type { UpdateTasksInputDTO, UpdateSubTasksInputDTO } from './to-do-list/tasks/inputs/update-tasks.input.dto';
+export type { CreateTasksOutputDTO } from './to-do-list/tasks/outputs/create-tasks.output.dto';
+export type { FindManyTasksOutputDTO } from './to-do-list/tasks/outputs/find-many.tasks.output.dto';
+export type { FindOneTasksOutputDTO } from './to-do-list/tasks/outputs/find-one.tasks.output.dto';
+
+
