@@ -1,3 +1,10 @@
+export { Task } from './to-do-list/tasks/domain/task.model';
+export type { CreateTaskProps, UpdateTaskProps, TaskProps } from './to-do-list/tasks/domain/task.model';
+export type { ITasksRepository, CreateTasksParams, CreateManySubTasksParams, UpdateManySubTaskParams, UpdateTasksParams, FindManyTasksParams, FindOneTasksParams, DeleteTasksParams, deleteByTaskParentId } from './to-do-list/tasks/application/tasks.repository';
+export { TasksService } from './to-do-list/tasks/application/tasks.service';
+export { TasksView } from './to-do-list/tasks/application/tasks.view';
+export { KnexTasksRepository } from './to-do-list/tasks/infra/knex/knex-tasks.repository';
+
 export { User } from './common/users/domain/user.model';
 export type { CreateUserProps, UpdateUserProps, UserProps } from './common/users/domain/user.model';
 export type {
@@ -25,3 +32,4 @@ export { EnvService } from './shared/env/infra/env.service';
 
 export { IJwtService } from './common/auth/application/jwt.service';
 export { AuthService } from './common/auth/application/auth.service';
+

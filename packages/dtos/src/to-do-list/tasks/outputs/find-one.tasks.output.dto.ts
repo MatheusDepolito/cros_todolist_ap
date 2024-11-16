@@ -5,6 +5,7 @@ export type FindOneTasksOutputDTO = {
   title: string;
   description: string | null;
   status: TaskStatus;
+  parentTaskId: string | null;
   createdAt: Date;
   updatedAt: Date;
   subTasks?: FindOneTasksOutputDTO[];

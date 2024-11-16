@@ -8,7 +8,7 @@ export default class KnexCommonSeeds implements IKnexCommonSeeds {
   async up(knex: Knex): Promise<void> {
 
     const user = User.load({
-      id: crypto.randomUUID(),
+      id: "d0b9100a-b3d8-427f-af18-e587a4fa468a",
       username: "matheus",
       email: "matheussousadg@gmail.com",
       password: "$2a$10$Rrkc9aCVYjTui5B3CEUV6ucevXaiGRDeFN39Pdu5lW.jEu08PFcri",

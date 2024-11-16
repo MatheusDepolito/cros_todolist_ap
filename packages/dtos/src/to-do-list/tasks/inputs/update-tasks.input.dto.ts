@@ -9,8 +9,8 @@ export type UpdateTasksInputDTO = {
 
 export type UpdateSubTasksInputDTO = {
   id: string; 
-  title?: string;
-  description?: string;
-  status?: TaskStatus;
+  title: string;
+  description: string;
+  status: TaskStatus;
   subTasks?: UpdateSubTasksInputDTO[];
 };
