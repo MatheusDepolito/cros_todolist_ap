@@ -56,35 +56,32 @@ export class UsersController {
     };
   }
 
-  // @Post()
-  // async create(
-  //   @Body() createUserDTO: CreateUsersInputDTO,
-  // ): Promise<CrosToDoListControllerResponseDTO> {
-  //   const user = await this.usersService.create({
-  //     createUserDTO,
-  //   });
+  @Post()
+  async create(
+    @Body() createUserDTO: CreateUsersInputDTO,
+  ): Promise<CrosToDoListControllerResponseDTO> {
+    const user = await this.usersService.create({
+      createUserDTO,
+    });
 
-  //   const data = this.usersView.create(user);
+    const data = this.usersView.create(user);
 
-  //   return { data };
-  // }
+    return { data };
+  }
 
-  // @Put(':id')
-  // async update(
-  //   @ParamUUID('id') id: string,
-  //   @Body() updateUserDTO: UpdateUsersInputDTO,
-  // ) {
-  //   await this.usersService.update({
-  //     id,
-  //     updateUserDTO,
-  //   });
-  // }
+  @Put(':id')
+  async update(@ParamUUID('id') id: string, @Body() updateUserDTO: UpdateUsersInputDTO) {
+    await this.usersService.update({
+      id,
+      updateUserDTO,
+    });
+  }
 
-  // @Delete(':id')
-  // async delete(@Query() deleteUserDTO: DeleteUsersInputDTO, @ParamUUID('id') id: string) {
-  //   await this.usersService.delete({
-  //     id,
-  //     loggedUserId: deleteUserDTO.loggedUserId,
-  //   });
-  // }
+  @Delete(':id')
+  async delete(@Query() deleteUserDTO: DeleteUsersInputDTO, @ParamUUID('id') id: string) {
+    await this.usersService.delete({
+      id,
+      loggedUserId: deleteUserDTO.loggedUserId,
+    });
+  }
 }
