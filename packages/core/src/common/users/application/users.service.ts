@@ -1,9 +1,13 @@
-import { CreateUsersInputDTO, FindManyUsersInputDTO, UpdateUsersInputDTO } from "@cros_todolist/dtos";
-import { IUnitOfWorkService } from "../../../shared/database/application/unit-of-work.service";
-import { CoreError } from "../../../shared/errors/application/core-error";
-import { IUsersRepository } from "./users.repository";
-import { CoreErrorCode } from "../../../shared/errors/application/core-error-code.enum";
-import { User } from "../domain/user.model";
+import { User } from '../domain/user.model';
+import { IUsersRepository } from './users.repository';
+import { CoreError } from '../../../shared/errors/application/core-error';
+import { CoreErrorCode } from '../../../shared/errors/application/core-error-code.enum';
+import { IUnitOfWorkService } from '../../../shared/database/application/unit-of-work.service';
+import {
+  CreateUsersInputDTO,
+  UpdateUsersInputDTO,
+  FindManyUsersInputDTO,
+} from '@cros_todolist/dtos';
 
 export class UsersServiceError extends CoreError {}
 
@@ -16,15 +20,12 @@ export class UsersService {
   async findOne(params: FindOneParams) {
     const { id } = params;
 
-    const user =  await this.usersRepository.findOne({
-      id
+    const user = await this.usersRepository.findOne({
+      id,
     });
 
     if (!user) {
-      throw new UsersServiceError(
-        'user not found', 
-        CoreErrorCode.NOT_FOUND
-      );
+      throw new UsersServiceError('user not found', CoreErrorCode.NOT_FOUND);
     }
 
     return user;
@@ -36,10 +37,7 @@ export class UsersService {
     const user = await this.findOne({ id });
 
     if (!user) {
-      throw new UsersServiceError(
-        'user not found', 
-        CoreErrorCode.NOT_FOUND
-      );
+      throw new UsersServiceError('user not found', CoreErrorCode.NOT_FOUND);
     }
 
     return user;
@@ -50,16 +48,16 @@ export class UsersService {
 
     return await this.usersRepository.findMany({
       email: filters?.email,
-      username: filters?.username
+      username: filters?.username,
     });
   }
 
   async create(params: CreateParams) {
     const { createUserDTO } = params;
 
-    await this.#checkConflicts({ 
-      email: createUserDTO.email, 
-      username: createUserDTO.username 
+    await this.#checkConflicts({
+      email: createUserDTO.email,
+      username: createUserDTO.username,
     });
 
     const user = await User.create({
@@ -73,7 +71,7 @@ export class UsersService {
         user,
         transaction,
       });
-    })
+    });
 
     return user;
   }
@@ -88,7 +86,6 @@ export class UsersService {
     });
 
     const user = await this.findOneOrThrow({ id });
-    
 
     await user.update({
       email: updateUserDTO.email,
@@ -102,7 +99,7 @@ export class UsersService {
         transaction,
       });
     });
-  } 
+  }
 
   async delete(params: DeleteParams) {
     const { id, loggedUserId } = params;
@@ -131,7 +128,7 @@ export class UsersService {
     }
 
     if (username) {
-      await this.#checkUsernameConflict({ id, username, messages});
+      await this.#checkUsernameConflict({ id, username, messages });
     }
 
     if (messages.length > 0) {
@@ -185,7 +182,7 @@ type CreateParams = {
 type UpdateParams = {
   id: string;
   updateUserDTO: UpdateUsersInputDTO;
-}
+};
 
 type CheckConflictParams = {
   id?: string;
@@ -208,4 +205,4 @@ type CheckEmailConflictParams = {
 type DeleteParams = {
   id: string;
   loggedUserId?: string;
-}
+};

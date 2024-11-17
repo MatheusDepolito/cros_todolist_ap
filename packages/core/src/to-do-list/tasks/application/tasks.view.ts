@@ -1,12 +1,13 @@
-import { CreateTasksOutputDTO, FindManyTasksOutputDTO, FindOneTasksOutputDTO } from "@cros_todolist/dtos";
-import { Task } from "../domain/task.model";
-
-
+import { Task } from '../domain/task.model';
+import {
+  CreateTasksOutputDTO,
+  FindOneTasksOutputDTO,
+  FindManyTasksOutputDTO,
+} from '@cros_todolist/dtos';
 
 export class TasksView {
-  
   findOne(task: Task | null): FindOneTasksOutputDTO | undefined {
-    if(!task) {
+    if (!task) {
       return;
     }
 
@@ -17,7 +18,7 @@ export class TasksView {
       status: task.status,
       parentTaskId: task.parentTaskId,
       subTasks: task.subTasks?.map((subTask) => ({
-        id:  subTask.id,
+        id: subTask.id,
         title: subTask.title,
         description: subTask.description,
         status: subTask.status,
@@ -26,16 +27,16 @@ export class TasksView {
         updatedAt: subTask.updatedAt,
         subTasks: subTask.subTasks?.map((complementaryTask) => ({
           ...complementaryTask,
-          subTasks: []
-        }))
+          subTasks: [],
+        })),
       })),
       createdAt: task.createdAt,
-      updatedAt: task.updatedAt
+      updatedAt: task.updatedAt,
     };
   }
 
   findMany(tasks: Task[]): FindManyTasksOutputDTO[] {
-    if(!tasks) {
+    if (!tasks) {
       return [];
     }
 
@@ -49,7 +50,7 @@ export class TasksView {
   }
 
   create(task: Task): CreateTasksOutputDTO | undefined {
-    if(!task) {
+    if (!task) {
       return;
     }
 

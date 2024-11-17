@@ -1,5 +1,5 @@
-import { TaskStatus } from "@cros_todolist/dtos";
-import { Task } from "../domain/task.model";
+import { Task } from '../domain/task.model';
+import { TaskStatus } from '@cros_todolist/dtos';
 
 export interface ITasksRepository {
   findOne(params: FindOneTasksParams): Promise<Task | null>;
@@ -72,7 +72,7 @@ export type CreateManySubTasksParams<T = unknown> = {
 export type UpdateManySubTaskParams<T = unknown> = {
   tasks: Task[];
   transaction?: T;
-}
+};
 
 export type deleteByTaskParentId<T = unknown> = {
   task: Task;

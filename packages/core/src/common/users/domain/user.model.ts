@@ -1,18 +1,11 @@
-import { isEmail, isNotEmpty, isString, isUUID, maxLength, minLength } from "class-validator";
-import { CoreError } from "../../../shared/errors/application/core-error";
-import { CoreErrorCode } from "../../../shared/errors/application/core-error-code.enum";
 import bcrypt from 'bcrypt';
+import { CoreError } from '../../../shared/errors/application/core-error';
+import { CoreErrorCode } from '../../../shared/errors/application/core-error-code.enum';
+import { isUUID, isEmail, isString, maxLength, minLength, isNotEmpty } from 'class-validator';
 
 export type UserProps = Omit<User, 'update'>;
-export type CreateUserProps = Omit<UserProps,
-  'id' | 'createdAt' | 'updatedAt'
->;
-export type UpdateUserProps = Partial<
-  Omit<
-    UserProps,
-    'id' | 'createdAt' | 'updatedAt'
-  >
->;
+export type CreateUserProps = Omit<UserProps, 'id' | 'createdAt' | 'updatedAt'>;
+export type UpdateUserProps = Partial<Omit<UserProps, 'id' | 'createdAt' | 'updatedAt'>>;
 
 export class UserError extends CoreError {}
 

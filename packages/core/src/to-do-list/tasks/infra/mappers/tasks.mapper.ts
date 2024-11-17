@@ -1,6 +1,6 @@
-import { TaskStatus } from "@cros_todolist/dtos";
-import { Task } from "../../domain/task.model";
-import { TaskEntity } from "../entities/task-entity";
+import { Task } from '../../domain/task.model';
+import { TaskStatus } from '@cros_todolist/dtos';
+import { TaskEntity } from '../entities/task-entity';
 
 export class TasksMapper {
   static toDomain(task: TaskEntity): Task {

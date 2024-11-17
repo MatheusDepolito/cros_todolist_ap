@@ -1,4 +1,4 @@
-import { TaskStatus } from "../enums/task-status.enum";
+import { TaskStatus } from '../enums/task-status.enum';
 
 export type FindManyTasksInputDTO = {
   title?: string;

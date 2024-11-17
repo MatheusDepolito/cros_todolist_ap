@@ -5,20 +5,19 @@ import {
   FindManyUsersOutputDTO,
 } from '@cros_todolist/dtos';
 
-
 export class UsersView {
   create(user: User): CreateUsersOutputDTO | undefined {
-    if(!user) {
+    if (!user) {
       return;
     }
-    
-    return { 
-      id: user.id 
+
+    return {
+      id: user.id,
     };
   }
 
   findOne(user: User | null): FindOneUsersOutputDTO | undefined {
-    if(!user) {
+    if (!user) {
       return;
     }
 

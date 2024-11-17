@@ -1,17 +1,16 @@
-import { CreateTasksInputDTO, FindManyTasksInputDTO, UpdateTasksInputDTO } from "@cros_todolist/dtos";
-import { IUnitOfWorkService } from "../../../shared/database/application/unit-of-work.service";
-import { CoreError } from "../../../shared/errors/application/core-error";
-import { CoreErrorCode } from "../../../shared/errors/application/core-error-code.enum";
-import { Task } from "../domain/task.model";
-import { ITasksRepository } from "./tasks.repository";
-import { title } from "process";
+import { title } from 'process';
+import { Task } from '../domain/task.model';
+import { ITasksRepository } from './tasks.repository';
+import { CoreError } from '../../../shared/errors/application/core-error';
+import { CoreErrorCode } from '../../../shared/errors/application/core-error-code.enum';
+import { IUnitOfWorkService } from '../../../shared/database/application/unit-of-work.service';
+import {
+  CreateTasksInputDTO,
+  UpdateTasksInputDTO,
+  FindManyTasksInputDTO,
+} from '@cros_todolist/dtos';
 
-
-
-
-
-
-export class TasksServiceError extends CoreError {} 
+export class TasksServiceError extends CoreError {}
 
 export class TasksService {
   constructor(
@@ -33,11 +32,8 @@ export class TasksService {
 
     const task = await this.findOne(params);
 
-    if(!task) {
-      throw new TasksServiceError(
-        'task error not found',
-        CoreErrorCode.NOT_FOUND,
-      );
+    if (!task) {
+      throw new TasksServiceError('task error not found', CoreErrorCode.NOT_FOUND);
     }
 
     return task;
@@ -54,7 +50,7 @@ export class TasksService {
     });
 
     return {
-      tasks
+      tasks,
     };
   }
 
@@ -72,21 +68,20 @@ export class TasksService {
       description: createTaskDTO.description,
       status: createTaskDTO.status,
       parentTaskId: createTaskDTO.parentTaskId,
-      userId
+      userId,
     });
 
-    if(createTaskDTO.subTasks) {
-
+    if (createTaskDTO.subTasks) {
       var subTasks = createTaskDTO.subTasks.map((subTask) => {
         var tsk = Task.create({
           title: subTask.title,
           description: subTask.description,
           status: subTask.status,
           parentTaskId: task.id,
-          userId
+          userId,
         });
 
-        if(subTask.subTasks.length > 0) {
+        if (subTask.subTasks.length > 0) {
           subTask.subTasks.map((t) => {
             const tc = Task.create({
               title: t.title,
@@ -95,28 +90,26 @@ export class TasksService {
               status: t.status,
               userId,
             });
-            
+
             complementaryTasks.push(tc);
-          });  
+          });
         }
-        return tsk;  
+        return tsk;
       });
 
-      
       await this.unitOfWork.transaction(async (transaction) => {
         await this.tasksRepository.create({
           task,
           transaction,
         });
 
-        if(subTasks.length > 0) {
+        if (subTasks.length > 0) {
           await this.tasksRepository.createMany({
             tasks: subTasks,
             transaction,
-          });   
-          
-          if(complementaryTasks.length > 0) {
-            console.log(complementaryTasks)
+          });
+
+          if (complementaryTasks.length > 0) {
             await this.tasksRepository.createMany({
               tasks: complementaryTasks,
               transaction,
@@ -132,38 +125,32 @@ export class TasksService {
   async update(params: UpdateParams) {
     const { id, updateTaskDTO, userId } = params;
 
-    // Validação de conflitos (exemplo: título já existente)
     await this.#checkConflicts({
       id,
       title: updateTaskDTO.title,
       userId,
     });
 
-    // Busca a Task principal e lança erro se não encontrada
     const task = await this.findOneOrThrow({ id });
 
-    // Atualiza os dados principais da Task
     task.update({
       title: updateTaskDTO.title,
       description: updateTaskDTO.description,
       status: updateTaskDTO.status,
     });
 
-    // Se não houver subTasks no DTO, apenas atualizamos a Task principal
     if (!updateTaskDTO.subTasks || updateTaskDTO.subTasks.length === 0) {
       await this.tasksRepository.update({ task });
       return task;
     }
 
-    // Arrays para agrupar subtarefas a serem criadas e atualizadas
     const subTasksToCreate: Task[] = [];
     const subTasksToUpdate: Task[] = [];
     const complementarySubTasksToCreate: Task[] = [];
     const complementarySubTasksToUpdate: Task[] = [];
 
     for (const subTaskDTO of updateTaskDTO.subTasks) {
-      if(subTaskDTO.id) {
-        // Se a subTask já existir, buscá-la para atualizar
+      if (subTaskDTO.id) {
         const existingSubTask = await this.findOneOrThrow({ id: subTaskDTO.id });
         existingSubTask.update({
           title: subTaskDTO.title,
@@ -176,7 +163,6 @@ export class TasksService {
         if (subTaskDTO.subTasks && subTaskDTO.subTasks.length > 0) {
           for (const cSubTaskDTO of subTaskDTO.subTasks) {
             if (cSubTaskDTO.id) {
-              // Atualiza sub-subTasks existentes
               const existingCSubTask = await this.findOneOrThrow({ id: cSubTaskDTO.id });
               existingCSubTask.update({
                 title: cSubTaskDTO.title,
@@ -186,7 +172,6 @@ export class TasksService {
 
               complementarySubTasksToUpdate.push(existingCSubTask);
             } else {
-              // Cria novas sub-subTasks
               const newCSubTask = Task.create({
                 title: cSubTaskDTO.title,
                 description: cSubTaskDTO.description,
@@ -200,7 +185,6 @@ export class TasksService {
           }
         }
       } else {
-        // Criar novas subtarefas
         const newSubTask = Task.create({
           title: subTaskDTO.title,
           description: subTaskDTO.description,
@@ -220,7 +204,7 @@ export class TasksService {
               parentTaskId: newSubTask.id,
               userId,
             });
-  
+
             complementarySubTasksToCreate.push(newCSubTask);
           }
         }
@@ -228,28 +212,25 @@ export class TasksService {
     }
 
     await this.unitOfWork.transaction(async (transaction) => {
-      // Att task principal
       await this.tasksRepository.update({
         task,
         transaction,
       });
 
-      // Atualiza subtarefas existentes 
-      if(subTasksToUpdate.length > 0 ) {
+      if (subTasksToUpdate.length > 0) {
         await this.tasksRepository.updateMany({
           tasks: subTasksToUpdate,
           transaction,
         });
       }
 
-      if(subTasksToCreate.length > 0 ) {
+      if (subTasksToCreate.length > 0) {
         await this.tasksRepository.createMany({
           tasks: subTasksToCreate,
           transaction,
         });
       }
 
-      // Atualiza sub-subTasks existentes
       if (complementarySubTasksToUpdate.length > 0) {
         await this.tasksRepository.updateMany({
           tasks: complementarySubTasksToUpdate,
@@ -257,7 +238,6 @@ export class TasksService {
         });
       }
 
-      // Cria novas sub-subTasks
       if (complementarySubTasksToCreate.length > 0) {
         await this.tasksRepository.createMany({
           tasks: complementarySubTasksToCreate,
@@ -273,14 +253,32 @@ export class TasksService {
     const { id } = params;
 
     const task = await this.findOneOrThrow({
-      id
+      id,
+      includes: { subTasks: true },
     });
 
+    const deleteSubTasksRecursively = async (subTasks: Task[], transaction: unknown) => {
+      for (const subTask of subTasks) {
+        const subTaskWithChildren = await this.findOne({
+          id: subTask.id,
+          includes: { subTasks: true },
+        });
+
+        if (subTaskWithChildren?.subTasks?.length) {
+          await deleteSubTasksRecursively(subTaskWithChildren.subTasks, transaction);
+        }
+
+        await this.tasksRepository.delete({
+          task: subTask,
+          transaction,
+        });
+      }
+    };
+
     await this.unitOfWork.transaction(async (transaction) => {
-      await this.tasksRepository.deleteByTaskParentId({
-        task,
-        transaction,
-      });
+      if (task.subTasks?.length) {
+        await deleteSubTasksRecursively(task.subTasks, transaction);
+      }
 
       await this.tasksRepository.delete({
         task,
@@ -294,11 +292,11 @@ export class TasksService {
 
     const messages: string[] = [];
 
-    if(title) {
-      await this.#checkTitleConflict({ id, title, messages, userId })
+    if (title) {
+      await this.#checkTitleConflict({ id, title, messages, userId });
     }
 
-    if(messages.length > 0) {
+    if (messages.length > 0) {
       throw new TasksServiceError(messages.join(', '), CoreErrorCode.CONFLICT);
     }
   }
@@ -306,17 +304,18 @@ export class TasksService {
   async #checkTitleConflict(params: CheckTitleConflictParams) {
     const { messages, title, id, userId } = params;
 
-    const exists = !id 
+    const exists = !id
       ? () => this.tasksRepository.exists({ title, userId })
-      : () => this.tasksRepository.exclusive({
-        id,
-        title,
-        userId,
-      });
+      : () =>
+          this.tasksRepository.exclusive({
+            id,
+            title,
+            userId,
+          });
 
     const titleExists = await exists();
 
-    if(titleExists) {
+    if (titleExists) {
       messages.push('task error title already exists');
     }
   }
@@ -345,7 +344,7 @@ type FindOneOrThrowParams = FindOneParams & {};
 type FindManyParams = {
   filters?: FindManyTasksInputDTO;
   userId: string;
-}
+};
 
 type DeleteParams = {
   id: string;

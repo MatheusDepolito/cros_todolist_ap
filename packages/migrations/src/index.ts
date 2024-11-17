@@ -1,10 +1,10 @@
 import yargs from 'yargs/yargs';
-import { 
+import {
   EnvService,
   KnexDatabaseService,
   KnexCommonSeedsService,
   KnexCommonMigrationsService,
- } from '@cros_todolist/core';
+} from '@cros_todolist/core';
 
 const args = yargs(process.argv)
   .option('command', {
@@ -30,9 +30,9 @@ async function main() {
 
   const knexCommonSeedsService = new KnexCommonSeedsService(knexService);
 
-  const knexCommonMigrationsService = new KnexCommonMigrationsService(knexService) 
+  const knexCommonMigrationsService = new KnexCommonMigrationsService(knexService);
 
-  if(args.type === 'migrations') {
+  if (args.type === 'migrations') {
     switch (args.scope) {
       case 'common':
         await knexCommonMigrationsService[args.command as 'up' | 'down']();
@@ -47,6 +47,6 @@ async function main() {
   }
 }
 
-main() 
+main()
   .then(() => process.exit())
   .catch((err) => console.log(err));

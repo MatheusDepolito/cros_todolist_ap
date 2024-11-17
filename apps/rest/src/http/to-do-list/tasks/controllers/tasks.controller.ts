@@ -1,10 +1,27 @@
-import { TasksService, TasksView } from "@cros_todolist/core";
-import { CreateTasksInputDTO, CrosToDoListControllerResponseDTO, FindManyTasksInputDTO, UpdateTasksInputDTO } from "@cros_todolist/dtos";
-import { Body, Controller, Get, Inject, Post, Put, Query } from "@nestjs/common";
-import { ParamUUID } from "../../../shared/decorators/param-uuid.decorator";
+import { TasksView, TasksService } from '@cros_todolist/core';
+import { AuthGuard } from '../../../shared/guards/auth.guard';
+import { ParamUUID } from '../../../shared/decorators/param-uuid.decorator';
+import {
+  Get,
+  Put,
+  Body,
+  Post,
+  Query,
+  Delete,
+  Inject,
+  UseGuards,
+  Controller,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  CreateTasksInputDTO,
+  UpdateTasksInputDTO,
+  FindManyTasksInputDTO,
+  CrosToDoListControllerResponseDTO,
+} from '@cros_todolist/dtos';
 
-
-
+@UseGuards(AuthGuard)
+@UseInterceptors()
 @Controller('tasks')
 export class TasksController {
   constructor(
@@ -15,21 +32,16 @@ export class TasksController {
   ) {}
 
   @Get(':id')
-  async findOne( 
-    @ParamUUID('id') id: string,
-  ): Promise<CrosToDoListControllerResponseDTO> {
+  async findOne(@ParamUUID('id') id: string): Promise<CrosToDoListControllerResponseDTO> {
     const task = await this.tasksService.findOne({ id, includes: { subTasks: true } });
 
     const data = this.tasksView.findOne(task);
 
-    return { data }
+    return { data };
   }
 
   @Get()
-  async findMany(
-    @Query() filters: FindManyTasksInputDTO,
-    @Query('userId') userId: string
-  ) {
+  async findMany(@Query() filters: FindManyTasksInputDTO, @Query('userId') userId: string) {
     const { tasks } = await this.tasksService.findMany({
       filters,
       userId,
@@ -38,7 +50,7 @@ export class TasksController {
     const data = this.tasksView.findMany(tasks);
 
     return {
-      data
+      data,
     };
   }
 
@@ -49,13 +61,13 @@ export class TasksController {
   ): Promise<CrosToDoListControllerResponseDTO> {
     const task = await this.tasksService.create({
       createTaskDTO,
-      userId
+      userId,
     });
 
     const data = this.tasksView.create(task);
 
     return {
-      data
+      data,
     };
   }
 
@@ -69,6 +81,13 @@ export class TasksController {
       id,
       updateTaskDTO,
       userId,
+    });
+  }
+
+  @Delete(':id')
+  async delete(@ParamUUID('id') id: string) {
+    await this.tasksService.delete({
+      id,
     });
   }
 }

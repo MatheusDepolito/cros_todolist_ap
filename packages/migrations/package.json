@@ -15,6 +15,7 @@
     "c:seeds:down": "npm run start -- --command down --type seeds --scope common"
   },
   "dependencies": {
+    "@nestjs/swagger": "^8.0.7",
     "knex": "^3.1.0",
     "pg": "^8.11.3",
     "sqlite3": "^5.1.7",

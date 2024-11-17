@@ -1,4 +1,4 @@
-import { ZodError, z } from 'zod';
+import { z, ZodError } from 'zod';
 
 const envSchema = z.object({
   jwt: z.object({

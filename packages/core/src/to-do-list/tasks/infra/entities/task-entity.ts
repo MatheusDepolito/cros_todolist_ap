@@ -1,5 +1,3 @@
-
-
 export type TaskEntity = {
   id: string;
   title: string;
@@ -10,4 +8,4 @@ export type TaskEntity = {
   created_at: Date;
   updated_at: Date;
   subTasks?: TaskEntity[];
-}
+};

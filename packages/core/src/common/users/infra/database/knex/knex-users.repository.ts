@@ -1,10 +1,19 @@
-import { Knex } from "knex";
-import { KnexService } from "../../../../../shared/database/infra/knex/knex.service";
-import { CountUsersParams, CreateUsersParams, DeleteUsersParams, ExclusiveUsersParams, ExistsUsersParams, FindManyUsersParams, FindOneUserParams, IUsersRepository, UpdateUsersParams } from "../../../application/users.repository";
-import { User } from "../../../domain/user.model";
-import { UserEntity } from "../entities/user.entity";
-import { UsersMapper } from "../mappers/users.mapper";
-
+import { Knex } from 'knex';
+import { User } from '../../../domain/user.model';
+import { UserEntity } from '../entities/user.entity';
+import { UsersMapper } from '../mappers/users.mapper';
+import { KnexService } from '../../../../../shared/database/infra/knex/knex.service';
+import {
+  CountUsersParams,
+  IUsersRepository,
+  CreateUsersParams,
+  DeleteUsersParams,
+  ExistsUsersParams,
+  FindOneUserParams,
+  UpdateUsersParams,
+  FindManyUsersParams,
+  ExclusiveUsersParams,
+} from '../../../application/users.repository';
 
 export class KnexUsersRepository implements IUsersRepository {
   constructor(private readonly knexService: KnexService) {}
@@ -12,13 +21,10 @@ export class KnexUsersRepository implements IUsersRepository {
   async findOne(params: FindOneUserParams): Promise<User | null> {
     const { id } = params;
 
-    const userEntity = await this.knexService
-      .q<UserEntity>('common.users')
-      .where({ id })
-      .first();
+    const userEntity = await this.knexService.q<UserEntity>('common.users').where({ id }).first();
 
     if (!userEntity) {
-      console.log("test")
+      console.log('test');
       return null;
     }
 

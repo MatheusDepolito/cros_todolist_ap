@@ -1,32 +1,30 @@
-import { Knex } from "knex";
-import { IKnexCommonSeeds } from "../knex-common-seeds.service";
-import { Task } from "../../../../../../to-do-list/tasks/domain/task.model";
-import { TaskStatus } from "@cros_todolist/dtos";
-import { TaskEntity } from "../../../../../../to-do-list/tasks/infra/entities/task-entity";
-import { TasksMapper } from "../../../../../../to-do-list/tasks/infra/mappers/tasks.mapper";
+import { Knex } from 'knex';
+import { TaskStatus } from '@cros_todolist/dtos';
+import { IKnexCommonSeeds } from '../knex-common-seeds.service';
+import { Task } from '../../../../../../to-do-list/tasks/domain/task.model';
+import { TaskEntity } from '../../../../../../to-do-list/tasks/infra/entities/task-entity';
+import { TasksMapper } from '../../../../../../to-do-list/tasks/infra/mappers/tasks.mapper';
 
 export default class KnexCommonSeeds implements IKnexCommonSeeds {
-
   async up(knex: Knex): Promise<void> {
-
     const task = Task.load({
       id: crypto.randomUUID(),
-      title: "test",
+      title: 'test',
       description: null,
       status: TaskStatus.CONCLUDED,
-      userId: "d0b9100a-b3d8-427f-af18-e587a4fa468a",
+      userId: 'd0b9100a-b3d8-427f-af18-e587a4fa468a',
       createdAt: new Date(),
       updatedAt: new Date(),
-      parentTaskId: "",
+      parentTaskId: '',
       subTasks: [],
     });
 
     const subTask = Task.load({
       id: crypto.randomUUID(),
-      title: "test1",
+      title: 'test1',
       description: null,
       status: TaskStatus.CONCLUDED,
-      userId: "d0b9100a-b3d8-427f-af18-e587a4fa468a",
+      userId: 'd0b9100a-b3d8-427f-af18-e587a4fa468a',
       createdAt: new Date(),
       updatedAt: new Date(),
       parentTaskId: task.id,
@@ -35,10 +33,10 @@ export default class KnexCommonSeeds implements IKnexCommonSeeds {
 
     const complementaryTask = Task.load({
       id: crypto.randomUUID(),
-      title: "test2",
+      title: 'test2',
       description: null,
       status: TaskStatus.CONCLUDED,
-      userId: "d0b9100a-b3d8-427f-af18-e587a4fa468a",
+      userId: 'd0b9100a-b3d8-427f-af18-e587a4fa468a',
       createdAt: new Date(),
       updatedAt: new Date(),
       parentTaskId: subTask.id,

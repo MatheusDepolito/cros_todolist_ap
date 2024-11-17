@@ -1,9 +1,21 @@
-import { Knex } from "knex";
-import { KnexService } from "../../../../shared/database/infra/knex/knex.service";
-import { CountTasksParams, CreateManySubTasksParams, CreateTasksParams, DeleteTasksParams, ExclusiveTasksParams, ExistsTasksParams, FindManyTasksParams, FindOneTasksParams, ITasksRepository, UpdateManySubTaskParams, UpdateTasksParams } from "../../application/tasks.repository";
-import { Task } from "../../domain/task.model";
-import { TaskEntity } from "../entities/task-entity";
-import { TasksMapper } from "../mappers/tasks.mapper";
+import { Knex } from 'knex';
+import { Task } from '../../domain/task.model';
+import { TaskEntity } from '../entities/task-entity';
+import { TasksMapper } from '../mappers/tasks.mapper';
+import { KnexService } from '../../../../shared/database/infra/knex/knex.service';
+import {
+  CountTasksParams,
+  ITasksRepository,
+  CreateTasksParams,
+  DeleteTasksParams,
+  ExistsTasksParams,
+  UpdateTasksParams,
+  FindOneTasksParams,
+  FindManyTasksParams,
+  ExclusiveTasksParams,
+  UpdateManySubTaskParams,
+  CreateManySubTasksParams,
+} from '../../application/tasks.repository';
 
 export class KnexTasksRepository implements ITasksRepository {
   constructor(private readonly knexService: KnexService) {}
@@ -11,28 +23,21 @@ export class KnexTasksRepository implements ITasksRepository {
   async findOne(params: FindOneTasksParams): Promise<Task | null> {
     const { id, includes } = params;
 
-    const taskEntity = await this.knexService
-      .q<TaskEntity>(`common.tasks`)
-      .where({ id })
-      .first();
+    const taskEntity = await this.knexService.q<TaskEntity>(`common.tasks`).where({ id }).first();
 
-    if(!taskEntity) {
+    if (!taskEntity) {
       return null;
     }
 
     if (includes?.subTasks) {
-      taskEntity.subTasks = await this.knexService
-        .q<TaskEntity>(`common.tasks`)
-        .where({
-          parent_task_id: id,
-        });
+      taskEntity.subTasks = await this.knexService.q<TaskEntity>(`common.tasks`).where({
+        parent_task_id: id,
+      });
 
-      if(taskEntity.subTasks.length > 0) {
+      if (taskEntity.subTasks.length > 0) {
         for (const subTask of taskEntity.subTasks) {
-          subTask.subTasks = await this.knexService
-            .q<TaskEntity>('common.tasks')
-            .where({
-              parent_task_id: subTask.id,
+          subTask.subTasks = await this.knexService.q<TaskEntity>('common.tasks').where({
+            parent_task_id: subTask.id,
           });
         }
       }
@@ -44,10 +49,7 @@ export class KnexTasksRepository implements ITasksRepository {
   async findMany(params: FindManyTasksParams): Promise<Task[]> {
     const { userId, ...filters } = params;
 
-    let query = this.knexService
-      .q<TaskEntity>(`common.tasks`)
-      .where('user_id', userId)
-      .select('*');
+    let query = this.knexService.q<TaskEntity>(`common.tasks`).where('user_id', userId).select('*');
 
     query = this.#buildWhere({ query, filters });
 
@@ -94,19 +96,17 @@ export class KnexTasksRepository implements ITasksRepository {
 
   async updateMany(params: UpdateManySubTaskParams<Knex.Transaction>): Promise<void> {
     const { tasks, transaction } = params;
-  
+
     const query = transaction ?? this.knexService.q;
-  
+
     await query.transaction(async (trx) => {
       for (const task of tasks) {
-        await trx<TaskEntity>('common.tasks')
-          .where({ id: task.id })
-          .update({
-            title: task.title,
-            description: task.description,
-            status: task.status,
-            updated_at: task.updatedAt,
-          });
+        await trx<TaskEntity>('common.tasks').where({ id: task.id }).update({
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          updated_at: task.updatedAt,
+        });
       }
     });
   }
@@ -115,14 +115,12 @@ export class KnexTasksRepository implements ITasksRepository {
 
     const query = transaction ?? this.knexService.q;
 
-    await query<TaskEntity>(`common.tasks`)
-      .where({ id: task.id })
-      .update({
-        title: task.title,
-        description: task.description,
-        status: task.status,
-        updated_at: task.updatedAt,
-      });
+    await query<TaskEntity>(`common.tasks`).where({ id: task.id }).update({
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      updated_at: task.updatedAt,
+    });
   }
 
   async delete(params: DeleteTasksParams<Knex.Transaction>): Promise<void> {
@@ -130,9 +128,7 @@ export class KnexTasksRepository implements ITasksRepository {
 
     const query = transaction ?? this.knexService.q;
 
-    await query<TaskEntity>(`common.tasks`)
-      .where({ id: task.id })
-      .delete();
+    await query<TaskEntity>(`common.tasks`).where({ id: task.id }).delete();
   }
 
   async deleteByTaskParentId(params: DeleteTasksParams<Knex.Transaction>): Promise<void> {
@@ -140,9 +136,7 @@ export class KnexTasksRepository implements ITasksRepository {
 
     const query = transaction ?? this.knexService.q;
 
-    await query<TaskEntity>(`common.tasks`)
-      .where({ parent_task_id: task.id })
-      .delete();
+    await query<TaskEntity>(`common.tasks`).where({ parent_task_id: task.id }).delete();
   }
 
   async count(params: CountTasksParams): Promise<number> {
@@ -184,19 +178,19 @@ export class KnexTasksRepository implements ITasksRepository {
   #buildWhere({ query, filters }: BuildWhereParams) {
     const { title, description, status, parentTaskId } = filters;
 
-    if(title !== undefined) {
+    if (title !== undefined) {
       query = query.where('title', title);
     }
 
-    if(description !== undefined) {
+    if (description !== undefined) {
       query = query.where('description', description);
     }
 
-    if(parentTaskId !== undefined) {
+    if (parentTaskId !== undefined) {
       query = query.where('parent_task_id', parentTaskId);
     }
 
-    if(status !== undefined) {
+    if (status !== undefined) {
       query = query.where('status', status);
     }
 
@@ -211,5 +205,5 @@ type BuildWhereParams = {
     description?: string;
     parentTaskId?: string;
     status?: string;
-  }
-}
+  };
+};

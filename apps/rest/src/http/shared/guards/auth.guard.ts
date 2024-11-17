@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { AuthService, EnvService, IJwtService } from '@cros_todolist/core';
+import { EnvService, AuthService, IJwtService } from '@cros_todolist/core';
 import {
   Inject,
   Injectable,
@@ -24,16 +24,14 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const { authorization } = request.headers;
 
-    if(!authorization) {
+    if (!authorization) {
       throw new UnauthorizedException('auth error token badly formatted');
     }
 
-    const [ token ] = authorization.split(' ');
+    const [token] = authorization.split(' ');
 
     if (!token) {
-      throw new UnauthorizedException(
-        'auth error token badly formatted '
-      );
+      throw new UnauthorizedException('auth error token badly formatted ');
     }
 
     // if (this.authService.isTokenRevoked(token)) {
@@ -48,7 +46,7 @@ export class AuthGuard implements CanActivate {
       if (error instanceof TokenExpiredError) {
         throw new UnauthorizedException('auth errors token expired');
       }
-      
+
       throw new UnauthorizedException('auth errors token invalid');
     }
 

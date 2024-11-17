@@ -38,7 +38,7 @@ export type DeleteUsersParams<T = unknown> = {
 export type CountUsersParams = {
   username?: string;
   email?: string;
-}
+};
 
 export type ExistsUsersParams = {
   id?: string;
@@ -50,4 +50,4 @@ export type ExclusiveUsersParams = {
   id: string;
   username?: string;
   email?: string;
-}
+};

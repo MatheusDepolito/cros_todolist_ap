@@ -10,4 +10,4 @@ export class CrosToDoListErrorResponseDTO {
   error?: string;
   messages: string[] = [];
   statusCode: number = 0;
-};
+}

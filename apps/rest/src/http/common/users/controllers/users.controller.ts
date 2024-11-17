@@ -1,24 +1,39 @@
-import { UsersService, UsersView } from "@cros_todolist/core";
-import { Body, Controller, Delete, Get, Inject, Post, Put, Query, UseGuards, UseInterceptors } from "@nestjs/common";
-import { ParamUUID } from "../../../shared/decorators/param-uuid.decorator";
-import { CreateUsersInputDTO, CrosToDoListControllerResponseDTO, DeleteUsersInputDTO, FindManyUsersInputDTO, UpdateUsersInputDTO } from "@cros_todolist/dtos";
-import { AuthGuard } from "../../../shared/guards/auth.guard";
+import { UsersView, UsersService } from '@cros_todolist/core';
+import { AuthGuard } from '../../../shared/guards/auth.guard';
+import { ParamUUID } from '../../../shared/decorators/param-uuid.decorator';
+import {
+  Get,
+  Put,
+  Body,
+  Post,
+  Query,
+  Delete,
+  Inject,
+  UseGuards,
+  Controller,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  CreateUsersInputDTO,
+  DeleteUsersInputDTO,
+  UpdateUsersInputDTO,
+  FindManyUsersInputDTO,
+  CrosToDoListControllerResponseDTO,
+} from '@cros_todolist/dtos';
 
 @UseGuards(AuthGuard)
 @UseInterceptors()
 @Controller('users')
 export class UsersController {
   constructor(
-    @Inject('UsersView') 
+    @Inject('UsersView')
     private readonly usersView: UsersView,
-    @Inject('UsersService') 
+    @Inject('UsersService')
     private readonly usersService: UsersService,
   ) {}
 
   @Get(':id')
-  async findOne(
-    @ParamUUID('id') id: string,
-  ): Promise<CrosToDoListControllerResponseDTO> {
+  async findOne(@ParamUUID('id') id: string): Promise<CrosToDoListControllerResponseDTO> {
     const user = await this.usersService.findOne({ id });
 
     const data = this.usersView.findOne(user);
@@ -27,7 +42,9 @@ export class UsersController {
   }
 
   @Get()
-  async findMany(@Query() filters: FindManyUsersInputDTO): Promise<CrosToDoListControllerResponseDTO> {
+  async findMany(
+    @Query() filters: FindManyUsersInputDTO,
+  ): Promise<CrosToDoListControllerResponseDTO> {
     const users = await this.usersService.findMany({
       filters,
     });
@@ -39,35 +56,35 @@ export class UsersController {
     };
   }
 
-  @Post()
-  async create(
-    @Body() createUserDTO: CreateUsersInputDTO,
-  ): Promise<CrosToDoListControllerResponseDTO> {
-    const user = await this.usersService.create({
-      createUserDTO,
-    });
+  // @Post()
+  // async create(
+  //   @Body() createUserDTO: CreateUsersInputDTO,
+  // ): Promise<CrosToDoListControllerResponseDTO> {
+  //   const user = await this.usersService.create({
+  //     createUserDTO,
+  //   });
 
-    const data = this.usersView.create(user);
+  //   const data = this.usersView.create(user);
 
-    return { data };
-  }
+  //   return { data };
+  // }
 
-  @Put(':id')
-  async update(
-    @ParamUUID('id') id: string,
-    @Body() updateUserDTO: UpdateUsersInputDTO,
-  ) {
-    await this.usersService.update({
-      id,
-      updateUserDTO,
-    });
-  }
+  // @Put(':id')
+  // async update(
+  //   @ParamUUID('id') id: string,
+  //   @Body() updateUserDTO: UpdateUsersInputDTO,
+  // ) {
+  //   await this.usersService.update({
+  //     id,
+  //     updateUserDTO,
+  //   });
+  // }
 
-  @Delete(':id')
-  async delete(@Query() deleteUserDTO: DeleteUsersInputDTO, @ParamUUID('id') id: string) {
-    await this.usersService.delete({
-      id,
-      loggedUserId: deleteUserDTO.loggedUserId,
-    });
-  }
+  // @Delete(':id')
+  // async delete(@Query() deleteUserDTO: DeleteUsersInputDTO, @ParamUUID('id') id: string) {
+  //   await this.usersService.delete({
+  //     id,
+  //     loggedUserId: deleteUserDTO.loggedUserId,
+  //   });
+  // }
 }

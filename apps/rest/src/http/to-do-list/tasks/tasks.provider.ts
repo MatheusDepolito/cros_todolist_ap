@@ -1,7 +1,12 @@
-import { ITasksRepository, IUnitOfWorkService, KnexService, KnexTasksRepository, TasksService, TasksView } from "@cros_todolist/core";
-import { Provider } from "@nestjs/common";
-
-
+import { Provider } from '@nestjs/common';
+import {
+  TasksView,
+  KnexService,
+  TasksService,
+  ITasksRepository,
+  IUnitOfWorkService,
+  KnexTasksRepository,
+} from '@cros_todolist/core';
 
 export const TasksViewProvider: Provider = {
   provide: 'TasksView',
@@ -16,17 +21,8 @@ export const TasksRepositoryProvider: Provider = {
 
 export const TasksServiceProvider: Provider = {
   provide: 'TasksService',
-  inject: [
-    'IUnitOfWorkService',
-    'ITasksRepository',
-  ],
-  useFactory: (
-    unitOfWork: IUnitOfWorkService,
-    tasksRepository: ITasksRepository,
-  ) => {
-    return new TasksService(
-      unitOfWork,
-      tasksRepository,
-    );
+  inject: ['IUnitOfWorkService', 'ITasksRepository'],
+  useFactory: (unitOfWork: IUnitOfWorkService, tasksRepository: ITasksRepository) => {
+    return new TasksService(unitOfWork, tasksRepository);
   },
 };

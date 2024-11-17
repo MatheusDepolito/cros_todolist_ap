@@ -1,9 +1,9 @@
 import { Provider } from '@nestjs/common';
 import {
+  EnvService,
   KnexService,
   KnexDatabaseService,
   KnexUnitOfWorkService,
-  EnvService,
 } from '@cros_todolist/core';
 
 export const KnexServiceProvider: Provider = {

@@ -1,4 +1,4 @@
-import { TaskStatus } from "../enums/task-status.enum";
+import { TaskStatus } from '../enums/task-status.enum';
 
 export type UpdateTasksInputDTO = {
   title?: string;
@@ -8,7 +8,7 @@ export type UpdateTasksInputDTO = {
 };
 
 export type UpdateSubTasksInputDTO = {
-  id: string; 
+  id: string;
   title: string;
   description: string;
   status: TaskStatus;

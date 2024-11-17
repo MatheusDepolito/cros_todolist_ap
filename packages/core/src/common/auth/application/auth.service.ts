@@ -1,11 +1,16 @@
-import { EnvService } from "../../../shared/env/infra/env.service";
-import { CoreError } from "../../../shared/errors/application/core-error";
-import { IUsersRepository, User, UsersService } from "@cros_todolist/core";
-import { IJwtService } from "./jwt.service";
-import { AuthLoginInputDTO, AuthLoginOutputDTO, AuthLoginPayloadOutputDTO, AuthType, CreateUsersInputDTO } from "@cros_todolist/dtos";
-import { CoreErrorCode } from "../../../shared/errors/application/core-error-code.enum";
 import * as bcrypt from 'bcrypt';
-
+import { IJwtService } from './jwt.service';
+import { EnvService } from '../../../shared/env/infra/env.service';
+import { CoreError } from '../../../shared/errors/application/core-error';
+import { User, UsersService, IUsersRepository } from '@cros_todolist/core';
+import { CoreErrorCode } from '../../../shared/errors/application/core-error-code.enum';
+import {
+  AuthType,
+  AuthLoginInputDTO,
+  AuthLoginOutputDTO,
+  CreateUsersInputDTO,
+  AuthLoginPayloadOutputDTO,
+} from '@cros_todolist/dtos';
 
 export class AuthServiceError extends CoreError {}
 
@@ -19,7 +24,7 @@ export class AuthService {
     private readonly envService: EnvService,
     private readonly jwtService: IJwtService,
     private readonly usersRepository: IUsersRepository,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
   ) {}
 
   async logout(token: string): Promise<void> {
@@ -34,19 +39,19 @@ export class AuthService {
     const { createUserDTO } = params;
 
     const user = await this.usersService.create({
-      createUserDTO
+      createUserDTO,
     });
 
-    const userAuth = await this.login(({
+    const userAuth = await this.login({
       authLoginDTO: {
         type: AuthType.EMAIL,
         email: user.email,
         password: createUserDTO.password,
-      }
-    }));
+      },
+    });
 
     return userAuth;
-  } 
+  }
 
   async login(params: LoginParams): Promise<AuthLoginOutputDTO> {
     const { authLoginDTO } = params;
@@ -83,19 +88,13 @@ export class AuthService {
     }
 
     if (!user) {
-      throw new AuthServiceError(
-        'auth error login or password incorrect',
-        CoreErrorCode.NOT_FOUND,
-      );
+      throw new AuthServiceError('auth error login or password incorrect', CoreErrorCode.NOT_FOUND);
     }
 
     const passwordMatch = await bcrypt.compare(authDTO.password, user.password);
 
     if (!passwordMatch) {
-      throw new AuthServiceError(
-        'auth error login or password incorrect',
-        CoreErrorCode.NOT_FOUND,
-      );
+      throw new AuthServiceError('auth error login or password incorrect', CoreErrorCode.NOT_FOUND);
     }
 
     return user;

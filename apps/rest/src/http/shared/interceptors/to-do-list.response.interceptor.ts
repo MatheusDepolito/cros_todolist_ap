@@ -1,6 +1,16 @@
-import { CrosToDoListControllerResponseDTO, CrosToDoListSuccesResponseDTO } from "@cros_todolist/dtos";
-import { BadRequestException, CallHandler, ExecutionContext, Injectable, InternalServerErrorException, NestInterceptor } from "@nestjs/common";
-import { catchError, Observable, throwError, map } from "rxjs";
+import { map, catchError, Observable, throwError } from 'rxjs';
+import {
+  CrosToDoListSuccesResponseDTO,
+  CrosToDoListControllerResponseDTO,
+} from '@cros_todolist/dtos';
+import {
+  Injectable,
+  CallHandler,
+  NestInterceptor,
+  ExecutionContext,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 @Injectable()
 export class CrosToDoListInterceptor implements NestInterceptor {
@@ -32,14 +42,18 @@ function errorResponse(error: Error) {
   });
 }
 
-function successResponse(response: CrosToDoListControllerResponseDTO): CrosToDoListSuccesResponseDTO {
+function successResponse(
+  response: CrosToDoListControllerResponseDTO,
+): CrosToDoListSuccesResponseDTO {
   if (!response) return {};
 
   const { data } = response;
 
   if (!data) return { data: [] };
 
-  const successResponse: CrosToDoListSuccesResponseDTO = { data: Array.isArray(data) ? data : [data] };
+  const successResponse: CrosToDoListSuccesResponseDTO = {
+    data: Array.isArray(data) ? data : [data],
+  };
 
   return successResponse;
 }

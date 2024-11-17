@@ -11,6 +11,7 @@
     "tests": "dotenv -e ../../.env -- vitest"
   },
   "dependencies": {
+    "@nestjs/swagger": "^8.0.7",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "10.2.0",

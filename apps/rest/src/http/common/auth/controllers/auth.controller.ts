@@ -1,7 +1,11 @@
 import { AuthService } from '@cros_todolist/core';
-import { AuthLoginInputDTO, CreateUsersInputDTO, CrosToDoListControllerResponseDTO, CrosToDoListSuccesResponseDTO } from '@cros_todolist/dtos';
 import { Body, Post, Inject, HttpCode, UseGuards, Controller } from '@nestjs/common';
-
+import {
+  AuthLoginInputDTO,
+  CreateUsersInputDTO,
+  CrosToDoListSuccesResponseDTO,
+  CrosToDoListControllerResponseDTO,
+} from '@cros_todolist/dtos';
 
 @Controller('auth')
 export class AuthController {
@@ -31,9 +35,11 @@ export class AuthController {
 
   @Post('/register')
   @HttpCode(200)
-  async register(@Body() createUserDTO: CreateUsersInputDTO): Promise<CrosToDoListControllerResponseDTO> {
+  async register(
+    @Body() createUserDTO: CreateUsersInputDTO,
+  ): Promise<CrosToDoListControllerResponseDTO> {
     const data = await this.authService.register({
-      createUserDTO
+      createUserDTO,
     });
 
     return {

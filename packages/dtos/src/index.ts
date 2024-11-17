@@ -8,10 +8,11 @@ export type { CreateUsersOutputDTO } from './common/users/outputs/create.users.o
 export type { FindManyUsersOutputDTO } from './common/users/outputs/find-many.users.output.dto';
 export type { FindOneUsersOutputDTO } from './common/users/outputs/find-one.users.output.dto';
 
-
-export type { CrosToDoListControllerResponseDTO, CrosToDoListSuccesResponseDTO } from './shared/outputs/cros-to-do-list.output.dto';
+export type {
+  CrosToDoListControllerResponseDTO,
+  CrosToDoListSuccesResponseDTO,
+} from './shared/outputs/cros-to-do-list.output.dto';
 export { CrosToDoListErrorResponseDTO } from './shared/outputs/cros-to-do-list.output.dto';
-
 
 export { AuthType } from './common/auth/enums/auth-type.enum';
 export type { AuthLoginInputDTO } from './common/auth/inputs/auth-login.input.dto';
@@ -23,9 +24,10 @@ export type { AuthPermissionsPayloadOutputDTO } from './common/auth/outputs/auth
 export { TaskStatus } from './to-do-list/tasks/enums/task-status.enum';
 export type { CreateTasksInputDTO } from './to-do-list/tasks/inputs/create-tasks.input.dto';
 export type { FindManyTasksInputDTO } from './to-do-list/tasks/inputs/find-many.tasks.input.dto';
-export type { UpdateTasksInputDTO, UpdateSubTasksInputDTO } from './to-do-list/tasks/inputs/update-tasks.input.dto';
+export type {
+  UpdateTasksInputDTO,
+  UpdateSubTasksInputDTO,
+} from './to-do-list/tasks/inputs/update-tasks.input.dto';
 export type { CreateTasksOutputDTO } from './to-do-list/tasks/outputs/create-tasks.output.dto';
 export type { FindManyTasksOutputDTO } from './to-do-list/tasks/outputs/find-many.tasks.output.dto';
 export type { FindOneTasksOutputDTO } from './to-do-list/tasks/outputs/find-one.tasks.output.dto';
-
-

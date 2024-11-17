@@ -1,11 +1,13 @@
-import { TaskStatus } from "@cros_todolist/dtos";
-import { CoreError } from "../../../shared/errors/application/core-error";
+import { TaskStatus } from '@cros_todolist/dtos';
+import { CoreError } from '../../../shared/errors/application/core-error';
 import { isEnum, isUUID, isString, maxLength, isNotEmpty } from 'class-validator';
-import { CoreErrorCode } from "../../../shared/errors/application/core-error-code.enum";
-
+import { CoreErrorCode } from '../../../shared/errors/application/core-error-code.enum';
 
 export type TaskProps = Omit<Task, 'update'>;
-export type CreateTaskProps = Pick<TaskProps, 'title' | 'description' | 'status' | 'userId' | 'parentTaskId' >;
+export type CreateTaskProps = Pick<
+  TaskProps,
+  'title' | 'description' | 'status' | 'userId' | 'parentTaskId'
+>;
 export type UpdateTaskProps = Partial<Pick<TaskProps, 'title' | 'description' | 'status'>>;
 
 export class TaskError extends CoreError {}
@@ -68,7 +70,7 @@ export class Task {
 
     this.updatedAt = new Date();
 
-    this.#validate();    
+    this.#validate();
   }
 
   #validate() {
@@ -82,7 +84,7 @@ export class Task {
     if (!maxLength(this.title, 64))
       messages.push('title must be a shorter than or equal to 64 characters');
 
-    if(this.description) {
+    if (this.description) {
       if (!isString(this.description)) messages.push('description must be a string');
     }
 
@@ -94,6 +96,6 @@ export class Task {
 
     if (messages.length > 0) {
       throw new TaskError(messages.join(', '), CoreErrorCode.UNPROCESSABLE_ENTITY);
-    }    
+    }
   }
 }
