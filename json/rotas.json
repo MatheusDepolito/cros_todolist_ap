@@ -1,0 +1,20 @@
+{
+  "Auth": {
+    "register": "http://localhost:3333/auth/register",
+    "login": "http://localhost:3333/auth/login"
+  },
+  "User": {
+    "delete": "http://localhost:3333/users/:id",
+    "update": "http://localhost:3333/users/:id",
+    "create": "http://localhost:3333/users",
+    "findOne": "http://localhost:3333/users/:id",
+    "findMany": "http://localhost:3333/users"
+  },
+  "Tasks": {
+    "delete": "http://localhost:3333/tasks/:id",
+    "update": "http://localhost:3333/tasks/:id",
+    "create": "http://localhost:3333/tasks",
+    "findOne": "http://localhost:3333/tasks/:id",
+    "findMany": "http://localhost:3333/tasks"
+  }
+}
