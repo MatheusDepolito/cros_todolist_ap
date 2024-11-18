@@ -1,0 +1,42 @@
+{
+  "title": "Main Task",
+  "description": "This is the main task",
+  "status": "NOT_CONCLUDED",
+  "parent_task_id": null,
+  "subTasks": [
+    {
+      "title": "Sub Task 1",
+      "description": "This is a subtask of the main task",
+      "status": "NOT_CONCLUDED",
+      "subTasks": [
+        {
+          "title": "Sub Task of Sub Task 1",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+        }, 
+				{
+					"title": "Sub Task of Sub Task 2",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+				}
+      ]
+    },
+    {
+      "title": "Sub Task 2",
+      "description": "This is a subtask of the main task",
+      "status": "NOT_CONCLUDED",
+      "subTasks": [
+        {
+          "title": "Sub Task of Sub Task 3",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+        }, 
+				{
+					"title": "Sub Task of Sub Task 4",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+				}
+      ]
+    }
+  ]
+}

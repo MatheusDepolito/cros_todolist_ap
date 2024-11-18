@@ -1,0 +1,48 @@
+{
+  "title": "Main Task 2",
+  "description": "This is the main task",
+  "status": "CONCLUDED",
+  "parent_task_id": null,
+  "subTasks": [
+   {
+			"id": "810c053e-56e1-40cc-98bc-730a7fba7240",
+      "title": "Subb Task 1",
+      "description": "This is a subtask of the main task",
+      "status": "NOT_CONCLUDED",
+      "subTasks": [
+        {
+					"id": "960fd31d-1688-4738-a244-6795671a5231",
+          "title": "Subb Task of Sub Task 1",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+        }, 
+				{
+					"id": "74f7c34a-256c-4a9a-a155-183faa63d3e4",
+					"title": "Sub Task of Sub Task 2",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+				}
+      ]
+    },
+    {
+			"id": "86ce7542-f774-40c2-9420-3d1641c2d06e",
+      "title": "Sub Task 2",
+      "description": "This is a subtask of the main task",
+      "status": "NOT_CONCLUDED",
+      "subTasks": [
+        {
+					"id": "ad0cd073-1ae5-40c2-bb38-a3d7464a1613",
+          "title": "Sub Task of Sub Task 3",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+        }, 
+				{
+					"id": "0bfa17db-54f6-43c1-bf5e-b4e33b20a3cd",
+					"title": "Sub Task of Sub Task 4",
+          "description": "This is a subtask of the first subtask",
+          "status": "NOT_CONCLUDED"
+				}
+      ]
+    }
+  ]
+}
