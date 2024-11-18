@@ -1,0 +1,13 @@
+{
+  "name": "@cros_todolist/tests",
+  "version": "0.1.0",
+  "author": "Matheus",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}

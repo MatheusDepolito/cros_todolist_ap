@@ -6,7 +6,5 @@ export type CreateTasksInputDTO = {
   status: TaskStatus;
   userId: string;
   parentTaskId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
   subTasks: CreateTasksInputDTO[];
 };
