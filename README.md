@@ -28,7 +28,7 @@ Bem-vindo ao repositório da API RESTful para gerenciamento de TodoLists! Este p
   - PostgreSQL
   - Knex.js
   - Autenticação JWT
-  - Insomnia para documentação das rotas (não consegui implementar o Swagger devido a um erro técnico)
+  - Insomnia para documentação das rotas
 
 - **Validações**: Todos os inputs são validados para evitar inconsistências no banco de dados.
 
